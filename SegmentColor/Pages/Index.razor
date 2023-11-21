@@ -1,0 +1,42 @@
+﻿@page "/"
+@using Syncfusion.Blazor.Charts
+
+<SfChart>
+    <ChartEvents OnPointRender="PointRender"></ChartEvents>
+    <ChartSeriesCollection>
+        <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" />
+    </ChartSeriesCollection>
+</SfChart>
+
+@code {
+    public class ChartData
+    {
+        public double XValue { get; set; }
+        public double YValue { get; set; }
+    }
+    public List<ChartData> Data = new List<ChartData>
+    {
+        new ChartData { XValue = 10, YValue = 10 },
+        new ChartData { XValue = 20, YValue = 25 },
+        new ChartData { XValue = 30, YValue = 30 },
+        new ChartData { XValue = 40, YValue = 10 },
+        new ChartData { XValue = 50, YValue = 30 },
+        new ChartData { XValue = 60, YValue = 25 },
+        new ChartData { XValue = 70, YValue = 50 },
+    };
+    public void PointRender(PointRenderEventArgs args)
+    {
+        if (args.Point.YValue <= 20)
+        {
+            args.Fill = "red";
+        }
+        if (args.Point.YValue > 20 && args.Point.YValue <= 40)
+        {
+            args.Fill = "blue";
+        }
+        if (args.Point.YValue > 40)
+        {
+            args.Fill = "green";
+        }
+    }
+}
