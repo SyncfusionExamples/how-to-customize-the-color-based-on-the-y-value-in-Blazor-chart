@@ -1,87 +1,78 @@
-# How-to-customize-the-color-based-on-the-y-value-in-Blazor-chart
+# Customize Segment Colors Based on Y-Value in Syncfusion Blazor Chart
 
-This article explains how to set different color to its segment based on its Y value in the [Blazor chart](https://www.syncfusion.com/blazor-components/blazor-charts).
+## Overview
 
-**Customizing point color based on Y value using OnPointRender event**
+This sample demonstrates how to customize segment colors in a Syncfusion [Blazor Charts](https://www.syncfusion.com/blazor-components/blazor-charts) according to the Y-value of each data point. The chart renders a column series and uses the `OnPointRender` event to evaluate every point before it is displayed. Based on predefined Y-value thresholds, the sample dynamically assigns different colors to chart segments, making it easier to visually identify low, medium, and high-value data points. This approach is useful for dashboards, KPI monitoring, threshold analysis, and data visualization scenarios where conditional formatting improves readability and decision-making.
 
-This can be achieved by using [OnPointRender](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartEvents.html#Syncfusion_Blazor_Charts_ChartEvents_OnPointRender) event. This event triggers before each point for the series is rendered.
+## Key Features
 
-The following properties are available in the [PointRenderEventArgs](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html).
+- Uses the `SfChart` component to render chart data.
+- Defines a `ChartSeries` with `Type="ChartSeriesType.Column"`.
+- Binds data using the `DataSource` property.
+- Maps chart axes through `XName="XValue"` and `YName="YValue"`.
+- Handles the `OnPointRender` event using the `ChartEvents` component.
+- Uses `PointRenderEventArgs.Fill` to customize point colors before rendering.
+- Accesses point values through `args.Point.YValue`.
+- Applies conditional color rules:
+  - Red for values less than or equal to 20.
+  - Blue for values greater than 20 and less than or equal to 40.
+  - Green for values greater than 40.
+- Demonstrates a strongly typed `ChartData` model with `XValue` and `YValue` properties.
+- Shows how per-point styling can be implemented without modifying the underlying data source.
 
-•	[Border](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html#Syncfusion_Blazor_Charts_PointRenderEventArgs_Border) – Specifies the color and the width of the point border.
+## Prerequisites
 
-•	[Fill](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html#Syncfusion_Blazor_Charts_PointRenderEventArgs_Fill) – Specifies the fill color of the point.
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code](https://code.visualstudio.com/)
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet) compatible with the project's target framework
 
-•	[Height](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html#Syncfusion_Blazor_Charts_PointRenderEventArgs_Height) – Specifies the current point’s height.
+## How to Run the Project
 
-•	[Shape](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html#Syncfusion_Blazor_Charts_PointRenderEventArgs_Shape) – Specifies the marker shape of the point.
+**Visual Studio 2022**
 
-•	[Width](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html#Syncfusion_Blazor_Charts_PointRenderEventArgs_Width) – Specifies the current point’s width.
+1. Clone or download this repository.
+2. Open the project file:
 
-We can customize the Segment color based on Y value by specifying the Fill property of the [PointRenderEventArgs](https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PointRenderEventArgs.html).
+   `SegmentColor.csproj`
 
-The following code example illustrates this.
+3. Restore NuGet packages.
+4. Build the project.
+5. Run the application using `Ctrl+F5`.
 
-**C#**
-    
-```cshtml
+**Visual Studio Code**
 
-@using Syncfusion.Blazor.Charts
+1. Clone or download this repository.
+2. Open the repository folder in Visual Studio Code.
+3. Open the integrated terminal.
+4. Navigate to the project directory.
 
-<SfChart>     
-    <ChartEvents OnPointRender="PointRender"></ChartEvents>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@Data" XName="XValue" YName="YValue" Type="ChartSeriesType.Column" />
-    </ChartSeriesCollection>
-</SfChart>
-
-@code {
-    public class ChartData
-    {
-        public double XValue { get; set; }
-        public double YValue { get; set; }
-    }
-    public List<ChartData> Data = new List<ChartData>
-    {
-        new ChartData { XValue = 10, YValue = 10 },
-        new ChartData { XValue = 20, YValue = 25 },
-        new ChartData { XValue = 30, YValue = 30 },
-        new ChartData { XValue = 40, YValue = 10 },
-        new ChartData { XValue = 50, YValue = 30 },
-        new ChartData { XValue = 60, YValue = 25 },
-        new ChartData { XValue = 70, YValue = 50 },
-    };
-    public void PointRender(PointRenderEventArgs args)
-    {
-        if(args.Point.YValue <= 20)
-        {
-            args.Fill = "red";
-        }
-        if (args.Point.YValue > 20 && args.Point.YValue <= 40)
-        {
-            args.Fill = "blue";
-        }
-        if(args.Point.YValue > 40)
-        {
-            args.Fill = "green";
-        }
-    }
-}
-
+```bash
+cd SizeOfPieOrDoughnutChart
 ```
 
-The following screenshot illustrate the output of the above code snippet.
+5. Restore NuGet packages:
 
-**Output:**
+```bash
+dotnet restore
+```
 
-![](/Segment-Color-customization-based-on-Y-Value.png)
+6. Run the application:
 
-**Conclusion**
+```bash
+dotnet run
+```
 
-I hope you enjoyed learning how to customize the segment color based on Y value of Blazor Chart Component.
+7. Open the local URL displayed in the console output.
 
-You can refer to our [Blazor Chart feature tour](https://www.syncfusion.com/blazor-components/blazor-charts) page to know about its other groundbreaking feature representations and [documentation](https://blazor.syncfusion.com/documentation/chart/getting-started), and how to quickly get started for configuration specifications. You can also explore our [Blazor Chart example](https://blazor.syncfusion.com/demos/chart/line?theme=bootstrap5) to understand how to create and manipulate data.
+## Project Structure
 
-For current customers, you can check out our components from the [License and Downloads](https://www.syncfusion.com/sales/teamlicense) page. If you are new to Syncfusion, you can try our 30-day [free trial](https://www.syncfusion.com/downloads/blazor) to check out our other controls.
+`SegmentColor/Pages/Index.razor` - Contains the Syncfusion chart, sample data source, column series definition, and `OnPointRender` implementation used to apply colors according to Y-values.
 
-If you have any queries or require clarifications, please let us know in the comments section below. You can also contact us through our [support forums](https://www.syncfusion.com/forums), [support portal](https://support.syncfusion.com/create), or [feedback portal](https://www.syncfusion.com/feedback/blazor-components?control=charts). We are always happy to assist you!
+## Support and Feedback
+
+- For general product questions, visit the [Syncfusion Community Forum](https://www.syncfusion.com/forums) or [Syncfusion Support](https://www.syncfusion.com/support).
+- To report an issue specific to this sample, open a GitHub issue in this repository.
+- Refer to the official Syncfusion documentation for chart rendering and point customization: https://help.syncfusion.com/chart-sdk/blazor/charts/getting-started
+
+## License
+
+This is a Syncfusion sample project provided to demonstrate product usage. Review the [Syncfusion license terms](https://www.syncfusion.com/sales/pricing?category=ui-components) before using Syncfusion components in your own applications.
